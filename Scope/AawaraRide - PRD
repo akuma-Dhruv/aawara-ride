@@ -1,0 +1,670 @@
+# AawaraRide
+## Product Requirements Document (PRD)
+
+**Version:** 1.0  
+**Status:** Initial Product Definition  
+**Platform:** Android (First Release)  
+**Target Audience:** Motorcycle and Scooter Riders  
+**Product Category:** Smart Riding Assistant  
+**Business Model:** Free-to-use
+
+**Tagline:** Your ride. Your people. Your road.
+
+---
+
+# 1. Executive Summary
+
+AawaraRide is a free Android application designed to serve as a smart digital companion for motorcycle and scooter riders.
+
+The application aims to make riding safer, smarter and more connected by combining hands-free call management, Bluetooth audio interaction, roadside assistance, motorcycle maintenance management, group communication and a dedicated rider community.
+
+Unlike conventional motorcycle community applications, AawaraRide will primarily position itself as a Smart Riding Assistant.
+
+The application will serve riders across different use cases, including daily commuting, weekend rides, long-distance touring and adventure riding.
+
+The long-term vision is to create a connected ecosystem that brings together riders, their vehicles, riding groups and the broader motorcycle community.
+
+# 2. Product Vision
+
+To become the everyday digital companion for motorcycle and scooter riders, making every ride smarter, safer and more connected.
+
+## 2.1 Product Objectives
+
+- Reduce distractions through hands-free riding assistance.
+- Improve rider safety through community-powered roadside assistance.
+- Simplify group coordination through smartphone-based communication.
+- Provide a centralised motorcycle maintenance and component history.
+- Build a connected ecosystem for riders.
+- Keep essential product capabilities accessible without mandatory subscriptions.
+
+## 2.2 Product Principles
+
+1. Voice-first interaction during riding.
+2. Minimal physical interaction while the vehicle is moving.
+3. Free access to core product features.
+4. Android-first development.
+5. Support for motorcycles and scooters.
+6. Community-driven assistance.
+7. Modular and extensible architecture.
+
+# 3. Target Audience
+
+| User Persona | Primary Requirements |
+|---|---|
+| Daily commuters | Hands-free calls and riding assistance |
+| Office commuters | Simple riding mode and Bluetooth integration |
+| Weekend riders | Group rides and community |
+| Touring enthusiasts | Roadside assistance and maintenance history |
+| Adventure riders | Remote-area assistance and communication |
+| Scooter owners | Maintenance reminders and everyday assistance |
+| Riding club organisers | Group management and PTT |
+| Motorcycle enthusiasts | Parts discovery and community discussions |
+
+# 4. Product Modules
+
+The application will consist of eight major functional modules.
+
+1. Smart Riding Assistant
+2. Rider Distress and Roadside Assistance
+3. Digital Garage and Maintenance Management
+4. Rider Community
+5. Group Ride and Push-to-Talk Communication
+6. Spare Parts Marketplace and Part Sharing
+7. Music Assistant
+8. Merchandise and Brand Partnerships
+
+---
+
+# 5. Functional Requirements
+
+## 5.1 Module 1: Smart Riding Assistant
+
+**Priority:** Highest  
+**Release:** MVP
+
+### Objective
+
+Allow riders to manage incoming calls without physically interacting with their smartphones.
+
+### 5.1.1 Riding Mode
+
+Users should be able to manually activate Riding Mode before starting a journey.
+
+When enabled, the application should:
+
+- Activate the riding assistant.
+- Detect incoming call events through supported Android APIs.
+- Identify available caller information.
+- Announce incoming calls through connected Bluetooth audio devices.
+- Enable supported voice-based call actions.
+- Maintain the riding session in the background.
+- Provide access to supported riding-related audio controls.
+
+### 5.1.2 Incoming Call Identification
+
+The application should identify the caller using available contact information.
+
+| Scenario | Expected Announcement |
+|---|---|
+| Saved contact | Incoming call from Rahul |
+| Unknown number | Incoming call from an unknown number |
+| Suspected spam | Incoming suspected spam call |
+
+Spam classification should use a reliable caller-identification source.
+
+### 5.1.3 Call Management
+
+The rider should have three primary actions:
+
+- Accept call.
+- Reject call.
+- Send call to voicemail.
+
+Supported interaction methods:
+
+- Voice commands.
+- Physical controls where supported.
+- Screen controls when stationary.
+
+### 5.1.4 Custom Voicemail
+
+Users should be able to configure a personal voicemail greeting.
+
+Expected workflow:
+
+1. Rider selects the voicemail option.
+2. The configured greeting is played to the caller.
+3. Caller records a message.
+4. Recording is stored.
+5. Rider receives a notification.
+6. Rider can listen to the message later.
+
+The implementation should evaluate carrier call forwarding, voicemail integration and alternative telephony solutions.
+
+### 5.1.5 Call History
+
+Maintain:
+
+- Caller name or number.
+- Call timestamp.
+- Call handling action.
+- Voicemail availability.
+- Recorded message playback.
+
+## 5.2 Module 2: Rider Distress and Roadside Assistance
+
+**Priority:** High  
+**Release:** MVP Expansion
+
+### Objective
+
+Enable riders to request assistance from nearby AawaraRide community members.
+
+### Functional Requirements
+
+| ID | Requirement | Priority |
+|---|---|---|
+| DIST-01 | Activate distress mode | Must |
+| DIST-02 | Select distress category | Must |
+| DIST-03 | Capture and share location | Must |
+| DIST-04 | Discover nearby requests | Must |
+| DIST-05 | Respond to assistance requests | Must |
+| DIST-06 | Communicate with respondents | Must |
+| DIST-07 | Close resolved requests | Must |
+| DIST-08 | Configure visibility radius | Should |
+| DIST-09 | Update an active request | Should |
+| DIST-10 | Notify emergency contacts | Should |
+
+### Distress Categories
+
+- Mechanical breakdown.
+- Spare part required.
+- Puncture.
+- Fuel assistance.
+- Medical assistance.
+- General roadside help.
+
+### User Journey
+
+1. Rider encounters a problem.
+2. Opens AawaraRide.
+3. Activates Distress.
+4. Selects the required assistance category.
+5. Application shares location and request details.
+6. Nearby riders receive the request.
+7. Interested riders respond.
+8. Both parties coordinate.
+9. Request is closed after resolution.
+
+The feature should work across the community without requiring both riders to belong to the same riding group.
+
+## 5.3 Module 3: Digital Garage and Maintenance Management
+
+**Priority:** High  
+**Release:** MVP Expansion
+
+### Objective
+
+Provide every rider with a digital record of their motorcycle or scooter.
+
+### Vehicle Profile
+
+Users should be able to register one or more vehicles.
+
+Information includes:
+
+- Manufacturer.
+- Model.
+- Variant.
+- Registration details (optional).
+- Purchase date.
+- Current odometer reading.
+- Vehicle photograph.
+
+### Component Tracking
+
+| Component | Information Tracked |
+|---|---|
+| Engine oil | Change date, odometer, type |
+| Chain and sprocket | Installation, lubrication, replacement |
+| Tyres | Installation, condition, replacement |
+| Battery | Installation and replacement |
+| Brake pads | Inspection and replacement |
+| Air filter | Cleaning and replacement |
+| Headlights | Installation and replacement |
+| Accessories | Custom component records |
+
+### Maintenance Activity
+
+Every maintenance record should support:
+
+- Activity name.
+- Component.
+- Maintenance date.
+- Odometer reading.
+- Cost.
+- Workshop or mechanic.
+- Notes.
+- Invoice or image attachment.
+
+### Maintenance Reminders
+
+Generate reminders based on:
+
+- Time since last maintenance.
+- Distance travelled.
+- Manufacturer-recommended intervals.
+- User-configured intervals.
+- Previous maintenance history.
+
+### AI Maintenance Assistant
+
+The chatbot should provide:
+
+1. Basic motorcycle maintenance guidance.
+2. Troubleshooting based on user-reported symptoms.
+3. Maintenance recommendations.
+4. Pre-ride checklists.
+5. Component replacement suggestions.
+6. Maintenance history queries.
+
+Recommendations should be vehicle-specific wherever reliable maintenance data is available.
+
+## 5.4 Module 4: Rider Community
+
+**Priority:** Medium  
+**Release:** Later Phase
+
+### Objective
+
+Build a social platform specifically for motorcycle and scooter riders.
+
+### Functional Requirements
+
+- Public posts.
+- Private groups.
+- Comments and replies.
+- Likes and reactions.
+- Rider profiles.
+- Direct messaging.
+- Image and video sharing.
+- Community discussions.
+- Ride announcements.
+- Group creation.
+- Group membership management.
+
+### Community Categories
+
+- City-based riding groups.
+- Motorcycle-specific communities.
+- Touring and adventure riding.
+- Technical discussions.
+- Spare parts and accessories.
+- Riding events.
+
+## 5.5 Module 5: Group Ride and Push-to-Talk
+
+**Priority:** Medium  
+**Release:** Later Phase
+
+### Objective
+
+Provide radio-style communication for organised riding groups.
+
+### Group Ride Management
+
+Organisers should be able to:
+
+- Create a group ride.
+- Define ride name, date and time.
+- Add meeting and destination points.
+- Invite riders.
+- Generate QR codes.
+- Generate joining codes.
+- Send direct invitations.
+- Assign ride marshals.
+- View participants.
+
+### Push-to-Talk Requirements
+
+- Press-and-hold audio transmission.
+- Real-time audio distribution.
+- Group audio channels.
+- Marshal announcements.
+- Participant management.
+- Connection status.
+- Automatic reconnection.
+- Mute functionality.
+- Emergency communication channel.
+
+### Connectivity Strategy
+
+**Online PTT**
+
+- Internet-based real-time audio.
+- Central group communication service.
+- Large group support.
+- User authentication and channel permissions.
+
+**Offline / Mesh PTT**
+
+- Explore Wi-Fi Direct and Bluetooth.
+- Device-to-device audio transmission.
+- Communication relayed through participating devices.
+- No dependency on central internet connectivity in supported configurations.
+
+Offline communication requires a separate technical feasibility study covering range, interference, compatibility, battery consumption and network topology.
+
+## 5.6 Module 6: Spare Parts Marketplace and Part Sharing
+
+**Priority:** Medium  
+**Release:** Later Phase
+
+### Objective
+
+Build a rider-focused marketplace for spare parts, accessories and second-hand components.
+
+### Initial Features
+
+- Search parts by motorcycle model.
+- Compatible accessory suggestions.
+- Affiliate product recommendations.
+- Redirect to Amazon and Flipkart.
+- Second-hand component listings.
+- Unused accessory listings.
+- Buyer-seller communication.
+
+### Future Expansion
+
+- Verified vendors.
+- Integrated ordering.
+- Inventory management.
+- Payments.
+- Order tracking.
+
+## 5.7 Module 7: Music Assistant
+
+**Priority:** Low  
+**Release:** Later Phase
+
+### Initial Features
+
+- Bluetooth music controls.
+- Play and pause.
+- Next and previous track.
+- Volume control where supported.
+- Basic voice commands.
+
+### Future Features
+
+- Synchronized group listening.
+- Shared playlists.
+- Group ride music sessions.
+
+## 5.8 Module 8: Merchandise and Brand Partnerships
+
+**Priority:** Low  
+**Release:** Future Phase
+
+### Features
+
+- Sponsored community posts.
+- Brand campaigns.
+- Riding gear promotions.
+- Merchandise catalogue.
+- Events and partnerships.
+
+---
+
+# 6. MVP Scope and Release Planning
+
+The complete product vision will be delivered incrementally.
+
+| Feature | MVP 1 | MVP 2 | Later |
+|---|---|---|---|
+| Riding Mode | Yes | | |
+| Caller announcement | Yes | | |
+| Call accept/reject | Supported API dependent | | |
+| Custom voicemail | Feasibility validation | Yes, if feasible | |
+| Bluetooth audio | Yes | | |
+| Digital Garage | | Yes | |
+| Maintenance tracking | | Yes | |
+| Distress requests | | Yes | |
+| Nearby rider discovery | | Yes | |
+| Community | | | Yes |
+| Group PTT online | | | Yes |
+| Offline PTT | | | Yes |
+| Marketplace | | | Yes |
+| Music synchronisation | | | Yes |
+
+### MVP 1: Smart Riding Assistant
+
+The first independently usable release should contain:
+
+1. User registration.
+2. Rider profile.
+3. Riding Mode activation.
+4. Bluetooth device connection status.
+5. Incoming call detection.
+6. Caller name announcements.
+7. Unknown-number announcements.
+8. Supported accept/reject controls.
+9. Basic settings.
+10. Call history.
+
+### MVP 2: Rider Utility
+
+- Digital Garage.
+- Maintenance history.
+- Maintenance reminders.
+- Distress requests.
+- Nearby rider discovery.
+- Basic assistance communication.
+
+### MVP 3: Connected Riding
+
+- Rider community.
+- Group ride management.
+- Online PTT.
+- Offline communication research.
+- Parts sharing.
+
+### MVP 4: Commercial Expansion
+
+- Marketplace.
+- Music synchronisation.
+- Merchandise.
+- Brand partnerships.
+- Advanced AI maintenance features.
+
+---
+
+# 7. High-Level Technical Architecture
+
+### Android Application
+
+- Kotlin.
+- Jetpack Compose.
+- Room Database.
+- Foreground Services.
+- WorkManager.
+- Android Bluetooth and telephony APIs.
+
+### Backend
+
+- Java.
+- Spring Boot.
+- REST APIs.
+- PostgreSQL.
+- JWT authentication.
+- Firebase Cloud Messaging.
+
+### Real-Time Communication
+
+- WebRTC.
+- Audio communication infrastructure.
+- Real-time event distribution.
+
+### Location
+
+- Google Maps or compatible mapping provider.
+- Background location management.
+- Nearby rider discovery.
+
+### AI
+
+- LLM API integration.
+- Vehicle-specific maintenance knowledge.
+- Maintenance recommendation engine.
+
+The architecture should be modular so that future marketplace, community, communication and AI capabilities can be introduced independently.
+
+---
+
+# 8. Non-Functional Requirements
+
+| Area | Requirement |
+|---|---|
+| Performance | Fast call detection and announcements |
+| Battery | Optimised background consumption |
+| Reliability | Graceful Bluetooth disconnection recovery |
+| Security | Secure authentication and encrypted communication |
+| Privacy | Explicit consent for contacts, location and recordings |
+| Scalability | Support increasing community and communication usage |
+| Availability | Reliable backend services |
+| Offline support | Local garage records and supported offline functionality |
+| Compatibility | Defined Android device and OS support |
+| Accessibility | Voice-first controls and simple interaction |
+
+### Riding Safety
+
+- Minimise screen interaction during active riding.
+- Use voice-first interaction.
+- Keep controls simple.
+- Avoid unnecessary visual notifications.
+- Provide clear connectivity status.
+- Prevent unintended actions through voice-command confirmation where appropriate.
+
+---
+
+# 9. Business Model
+
+AawaraRide will initially be completely free to use.
+
+No mandatory paid subscription or premium tier will be introduced in the initial business model.
+
+Core free features include:
+
+- Riding Assistant.
+- Call management.
+- Digital Garage.
+- Maintenance history.
+- Distress requests.
+- Community participation.
+- Group communication.
+
+Potential future revenue opportunities include affiliate commissions, marketplace commissions, brand partnerships, merchandise and commercial partnerships.
+
+These opportunities will be evaluated without compromising access to essential rider safety features.
+
+---
+
+# 10. Product Success Metrics
+
+| Metric | Purpose |
+|---|---|
+| Monthly Active Riders | Measure user growth |
+| Weekly Riding Mode Activations | Measure core engagement |
+| Successful Call Announcements | Measure assistant reliability |
+| Bluetooth Connection Reliability | Measure device compatibility |
+| Registered Vehicles | Measure garage adoption |
+| Maintenance Records | Measure utility |
+| Distress Requests Resolved | Measure assistance effectiveness |
+| Group Rides Created | Measure group adoption |
+| PTT Session Reliability | Measure communication quality |
+| 30-Day Retention | Measure long-term product value |
+
+---
+
+# 11. Risks and Dependencies
+
+| Risk | Mitigation |
+|---|---|
+| Android call-management restrictions | Validate supported APIs through POC |
+| Carrier voicemail limitations | Evaluate carrier forwarding and alternative approaches |
+| Bluetooth headset incompatibility | Test multiple manufacturers |
+| Battery consumption | Optimise background execution |
+| Poor internet in remote locations | Offline-first design and mesh research |
+| Low rider density | Launch with selected riding communities |
+| False distress requests | Reporting and moderation |
+| Unsafe user interaction | Voice-first interaction and riding-state restrictions |
+
+---
+
+# 12. Out of Scope for MVP 1
+
+The following features will not be part of the first MVP:
+
+- iOS application.
+- Full social networking platform.
+- Integrated e-commerce.
+- Offline mesh PTT.
+- Advanced AI diagnostics.
+- Synchronized music.
+- Brand advertising platform.
+- Connected motorcycle hardware.
+
+---
+
+# 13. Immediate Development Plan
+
+The immediate objective is to build a technical proof of concept for the Smart Riding Assistant.
+
+### POC Components
+
+1. Home screen with Riding Mode toggle.
+2. Bluetooth device connection status.
+3. Incoming call detection.
+4. Caller identification and audio announcement.
+5. Supported accept/reject controls.
+6. Basic riding preferences.
+
+### POC Acceptance Criteria
+
+The POC will be considered successful when:
+
+- User can activate and deactivate Riding Mode.
+- Incoming calls are detected using supported Android capabilities.
+- Caller information is announced through a connected Bluetooth device.
+- Unknown numbers are announced appropriately.
+- Supported call controls work.
+- Bluetooth disconnection is handled gracefully.
+- The application operates reliably in the background during testing.
+
+Custom voicemail should be evaluated separately because it involves additional telephony and carrier dependencies.
+
+---
+
+# 14. Product Decisions
+
+| Decision | Final Direction |
+|---|---|
+| Product Name | AawaraRide |
+| Platform | Android first |
+| Target Audience | All motorcycle and scooter riders |
+| Positioning | Smart Riding Assistant |
+| PTT Connectivity | Internet and future offline/mesh |
+| Business Model | Free |
+| Primary MVP | Hands-free call assistant |
+| Long-Term Vision | Complete connected rider ecosystem |
+
+---
+
+# 15. Product Vision Statement
+
+AawaraRide aims to become an essential digital companion for every two-wheeler rider.
+
+Whether someone is commuting to work, riding with friends on weekends or travelling through remote Himalayan roads, AawaraRide will help them stay connected, manage their motorcycle, communicate with fellow riders and find assistance when needed.
+
+**AawaraRide — Your ride. Your people. Your road.**
+

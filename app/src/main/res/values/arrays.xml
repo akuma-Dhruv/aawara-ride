@@ -1,0 +1,4 @@
+<resources>
+    <string-array name="repeat_delays"><item>5</item><item>10</item><item>15</item><item>30</item></string-array>
+    <string-array name="maximum_repeats"><item>1</item><item>2</item><item>3</item><item>5</item></string-array>
+</resources>

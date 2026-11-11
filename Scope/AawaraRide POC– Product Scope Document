@@ -1,0 +1,267 @@
+# AawaraRide – Product Scope Document
+**Version:** 0.1  
+**Status:** Initial POC Scope  
+**Platform:** Android  
+**Product:** AawaraRide
+
+---
+
+## 1. Product Overview
+
+AawaraRide is an Android application designed to improve rider safety by making incoming phone calls easier to identify and manage while riding a motorcycle or scooter.
+
+The application introduces a dedicated **Riding Mode** that the user manually activates before starting a ride.
+
+When Riding Mode is active, AawaraRide detects incoming calls, identifies the caller and announces their name through the connected audio device, such as a Bluetooth helmet headset.
+
+The application must preserve the phone's existing incoming-call behaviour, including:
+- Standard ringtone.
+- Vibration.
+- Native incoming-call interface.
+- Bluetooth headset call controls.
+- Existing call acceptance and rejection behaviour.
+
+AawaraRide will initially complement the existing Android calling system rather than replace it.
+
+## 2. Product Objective
+
+Build a lightweight Android application that allows motorcycle and scooter riders to identify incoming callers without looking at or physically interacting with their phones.
+
+The initial POC will focus exclusively on incoming-call identification and announcement.
+
+Voice-based call management and an application-managed voicemail experience will be introduced in a subsequent milestone.
+
+## 3. Target Users
+
+- Motorcycle riders.
+- Scooter riders.
+- Daily commuters.
+- Riders using Bluetooth-enabled helmets or Bluetooth headsets.
+
+## 4. Core User Journey
+
+### 4.1 Activate Riding Mode
+
+Before starting the ride:
+
+1. User opens AawaraRide.
+2. User activates Riding Mode.
+3. Application enters an active listening state.
+4. Application starts monitoring incoming call events.
+5. Riding Mode remains active until manually disabled or the service is stopped.
+
+### 4.2 Incoming Call Detection
+
+When a call arrives while Riding Mode is active:
+
+1. Android receives the incoming call.
+2. AawaraRide detects the incoming-call event.
+3. Application retrieves the caller's identity from the device's contacts, where available.
+4. Application announces the caller's name through the connected Bluetooth audio device.
+
+Example announcement:
+
+"Incoming call from Rahul."
+
+For an unknown number:
+
+"Incoming call from an unknown number."
+
+### 4.3 Preserve Existing Calling Behaviour
+
+The announcement must not interfere with the native calling experience.
+
+The following must continue working:
+
+| Existing functionality | Expected behaviour |
+|---|---|
+| Phone ringtone | Continues normally |
+| Phone vibration | Continues normally |
+| Incoming-call screen | Remains native |
+| Bluetooth headset | Continues receiving call events |
+| Bluetooth accept action | Accepts the call normally |
+| Bluetooth reject action | Rejects the call normally |
+| Normal phone controls | Remain functional |
+
+**Important:** AawaraRide will not automatically answer or reject calls in Milestone 1.
+
+The rider remains in control using the existing Bluetooth headset controls.
+
+### 4.4 Call Completion
+
+Once the rider accepts or rejects the call:
+
+- The native Android calling system handles the call.
+- AawaraRide does not interfere with the conversation.
+- Riding Mode remains active.
+- The application continues monitoring subsequent incoming calls.
+
+---
+
+## 5. Milestone Breakdown
+
+### Milestone 1 – Caller Name Announcement
+
+**Objective:** Deliver caller identification through Bluetooth audio while preserving the native Android calling experience.
+
+**Features:**
+
+1. Riding Mode ON/OFF.
+2. Background incoming-call detection.
+3. Caller name retrieval from device contacts.
+4. Unknown caller identification.
+5. Text-to-speech caller announcement.
+6. Bluetooth audio output.
+7. Preserve existing ringtone and vibration.
+8. Preserve native Bluetooth call acceptance/rejection.
+9. Continue monitoring calls while Riding Mode is active.
+
+**Out of scope:**
+- Automatic call acceptance.
+- Voice commands.
+- Automatic call rejection.
+- Voicemail recording.
+- Call transcription.
+- AI-based conversation handling.
+
+**Milestone 1 acceptance criteria:**
+
+- User can activate and deactivate Riding Mode.
+- Incoming calls are detected while Riding Mode is active.
+- Correct contact names are announced when available.
+- Unknown numbers are announced appropriately.
+- Existing ringtone and vibration remain functional.
+- Bluetooth headset controls work as they did before.
+- Calls can be answered and rejected normally.
+- The application does not interfere with ongoing calls.
+- The application does not announce calls when Riding Mode is disabled.
+
+### Milestone 2 – Voice-Based Call Management and Voicemail
+
+**Objective:** Allow riders to manage incoming calls through voice commands without physically interacting with their phones.
+
+This milestone extends Milestone 1.
+
+**Features:**
+
+1. Voice command detection.
+2. Voice-based call acceptance.
+3. Voice-based call rejection.
+4. Voice-based voicemail option.
+5. In-app voicemail storage.
+6. Voicemail playback interface.
+7. Basic voicemail history.
+
+**Proposed interaction:**
+
+Incoming call:
+
+"Incoming call from Rahul."
+
+The application listens for the rider's response.
+
+Supported commands:
+
+| Voice command | Expected action |
+|---|---|
+| Accept | Accept incoming call |
+| Reject | Reject incoming call |
+| Voicemail | Route caller to voicemail |
+
+### In-App Voicemail Experience
+
+When the rider chooses voicemail:
+
+1. The incoming call is directed to the voicemail mechanism.
+2. Caller hears a predefined greeting.
+3. Caller records a voice message.
+4. The recorded message is stored against the caller's number and call timestamp.
+5. Rider can access the voicemail later through AawaraRide.
+6. Rider can play, replay and delete saved messages.
+
+The voicemail mechanism will require a separate technical design. In particular, handling a rejected cellular call and capturing the caller's audio requires a supported call-routing solution, such as carrier call forwarding to a voicemail service. Simply rejecting a normal cellular call does not give an ordinary Android application access to the caller's audio.
+
+---
+
+## 6. Functional Requirements
+
+| ID | Requirement | Milestone |
+|---|---|---|
+| FR-01 | User can activate Riding Mode | M1 |
+| FR-02 | User can deactivate Riding Mode | M1 |
+| FR-03 | Detect incoming calls | M1 |
+| FR-04 | Retrieve caller name | M1 |
+| FR-05 | Identify unknown callers | M1 |
+| FR-06 | Announce caller using TTS | M1 |
+| FR-07 | Support Bluetooth audio announcement | M1 |
+| FR-08 | Preserve native ringtone and vibration | M1 |
+| FR-09 | Preserve existing Bluetooth call controls | M1 |
+| FR-10 | Accept calls using voice commands | M2 |
+| FR-11 | Reject calls using voice commands | M2 |
+| FR-12 | Redirect calls to voicemail | M2 |
+| FR-13 | Record caller voicemail | M2 |
+| FR-14 | Store voicemail messages in the app | M2 |
+| FR-15 | Play stored voicemail messages | M2 |
+
+## 7. Non-Functional Requirements
+
+- Minimal battery consumption during Riding Mode.
+- Reliable background operation.
+- Low-latency caller announcement.
+- Compatibility with Bluetooth headsets and helmet intercoms.
+- No unnecessary changes to the phone's default calling behaviour.
+- Minimal permissions, limited to what is required.
+- Reliable operation when the phone screen is locked.
+- No dependency on an internet connection for Milestone 1 caller announcements.
+
+## 8. Initial Technical Considerations
+
+The initial implementation will target Android.
+
+Areas requiring technical validation:
+
+1. Incoming-call event detection using Android Telecom and supported call-state APIs.
+2. Reading caller information with appropriate contact permissions.
+3. Text-to-speech audio routing to Bluetooth devices.
+4. Maintaining background operation using an appropriate foreground service.
+5. Preventing announcement audio from interfering with ringtone and call audio.
+6. Testing compatibility across different Android manufacturers and Bluetooth headset implementations.
+
+The application should not require users to change their default dialer for Milestone 1 unless technical validation establishes that this is necessary.
+
+## 9. Explicitly Excluded From the Initial POC
+
+The following are not part of the current scope:
+
+- SMS announcements.
+- WhatsApp call handling.
+- Telegram call handling.
+- Automatic replies to missed calls.
+- GPS tracking.
+- Ride tracking.
+- Navigation.
+- Emergency SOS.
+- Accident detection.
+- AI-powered call summaries.
+- Automatic call answering.
+
+These can be evaluated independently after the core calling experience is validated.
+
+## 10. Definition of Success
+
+The initial POC will be considered successful when a rider can:
+
+1. Open AawaraRide before starting a ride.
+2. Activate Riding Mode.
+3. Put their phone away.
+4. Receive an incoming call.
+5. Hear the caller's name through their Bluetooth helmet.
+6. Continue hearing the normal ringtone and vibration.
+7. Accept or reject the call using their existing Bluetooth headset controls.
+8. Continue riding without needing to look at or touch their phone.
+
+**The primary success criterion is simple: caller identification without changing the rider's existing calling habits.**
+
+---
+
+**Product Direction:** First replicate the essential riding-call experience that inspired AawaraRide, then progressively introduce voice-based interaction and voicemail capabilities.
