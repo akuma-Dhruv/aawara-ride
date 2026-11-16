@@ -23,6 +23,7 @@ public final class AnnouncementManager implements TextToSpeech.OnInitListener {
     private AudioFocusRequest audioFocusRequest;
     private boolean ready;
     private String currentAnnouncement;
+    private Runnable pendingStart;
     private int repeatCount;
 
     public AnnouncementManager(Context context, AnnouncementSettingsRepository settings) {
@@ -48,26 +49,44 @@ public final class AnnouncementManager implements TextToSpeech.OnInitListener {
                     @Override public void onError(String utteranceId) { abandonAudioFocus(); }
                 });
                 Log.i(TAG, "TTS initialized");
+                if (pendingStart != null && currentAnnouncement != null) {
+                    Runnable callback = pendingStart;
+                    pendingStart = null;
+                    speakCurrent(false, callback);
+                }
             }
         }
     }
 
     public void announce(String announcement) {
+        announce(announcement, null);
+    }
+
+    public void announce(String announcement, Runnable onStarted) {
         cancelPending();
         currentAnnouncement = announcement;
         repeatCount = 0;
         if (settings.isInitialEnabled()) {
-            speakCurrent(false);
+            if (ready) {
+                speakCurrent(false, onStarted);
+            } else {
+                pendingStart = onStarted;
+            }
+        } else if (onStarted != null) {
+            onStarted.run();
         }
         if (settings.isRepeatEnabled() && settings.getMaximumRepeatCount() > 0) {
             scheduleNextRepeat();
         }
     }
 
-    private void speakCurrent(boolean repeat) {
+    private void speakCurrent(boolean repeat, Runnable onStarted) {
         if (ready && textToSpeech != null && currentAnnouncement != null) {
             requestAudioFocus();
             textToSpeech.speak(currentAnnouncement, TextToSpeech.QUEUE_FLUSH, null, "incoming-caller");
+            if (onStarted != null) {
+                onStarted.run();
+            }
             if (repeat) {
                 repeatCount++;
             }
@@ -77,7 +96,7 @@ public final class AnnouncementManager implements TextToSpeech.OnInitListener {
     private void scheduleNextRepeat() {
         handler.postDelayed(() -> {
             if (repeatCount < settings.getMaximumRepeatCount()) {
-                speakCurrent(true);
+                speakCurrent(true, null);
                 if (repeatCount < settings.getMaximumRepeatCount()) {
                     scheduleNextRepeat();
                 }
@@ -92,6 +111,7 @@ public final class AnnouncementManager implements TextToSpeech.OnInitListener {
         }
         abandonAudioFocus();
         currentAnnouncement = null;
+        pendingStart = null;
         repeatCount = 0;
     }
 

@@ -10,8 +10,8 @@ android {
         applicationId = "com.aawararide"
         minSdk = 29
         targetSdk = 35
-        versionCode = 1
-        versionName = "1.0"
+        versionCode = 4
+        versionName = "0.1.m3"
     }
 
     buildTypes {
@@ -28,6 +28,10 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+}
+
+base {
+    archivesName.set("AawaraRide-${android.defaultConfig.versionName}")
 }
 
 dependencies {

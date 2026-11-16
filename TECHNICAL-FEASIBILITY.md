@@ -39,6 +39,33 @@ over call audio. AawaraRide intentionally does not request call audio or
 modify the native call route. Bluetooth disconnection therefore degrades to
 the system's available audio output.
 
+## Milestone 2A voice-control limitation
+
+`SpeechRecognizer` is scoped to the ringing window and requires
+`RECORD_AUDIO`. A `CallScreeningService` can allow or screen calls, but it does
+not grant arbitrary later answer/reject control. AawaraRide therefore attempts
+`TelecomManager.acceptRingingCall()` and `endCall()` only while its own state
+is still ringing. Android may reject those calls for a non-default-dialer app;
+the failure is handled without affecting the native call UI or headset
+controls. Reliable arbitrary call control would require default-dialer or
+InCall role privileges, which is intentionally out of scope.
+
+## Milestone 2A-f1 microphone foreground-service requirements
+
+The application targets API 35. Android 14 and later require a foreground
+service that records audio to declare both the `microphone` foreground-service
+type and `FOREGROUND_SERVICE_MICROPHONE`. The service is started from the
+visible MainActivity after runtime microphone permission handling, which is an
+allowed start context for a microphone foreground service. Starting the same
+service from a background-only context would be restricted while microphone
+permission is while-in-use.
+
+The implementation declares both `dataSync` and `microphone` because the
+service continues to monitor call state and starts scoped speech recognition
+only during an incoming call. Recognition remains bounded by the ringing state;
+this is not continuous microphone listening. Device and OEM policy still
+requires validation on Android 14/15/16 hardware.
+
 ## Device compatibility
 
 The implementation uses public Android APIs and has no Samsung- or Xiaomi-
