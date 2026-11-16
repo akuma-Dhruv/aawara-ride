@@ -29,7 +29,7 @@ building, inspect this file and continue from the latest release-history entry.
 ## Android versionCode
 
 `versionCode` is an integer and must increase monotonically for every
-distributed build, including fix builds. The current `0.1.m3` build uses `versionCode 4`; future distributed builds must
+distributed build, including fix builds. The current `0.1.m3-f1` build uses `versionCode 5`; future distributed builds must
 continue increasing this value.
 
 ## APK naming
@@ -45,6 +45,27 @@ build-type suffix in Gradle's intermediate output, but the release artifact
 must use the versioned name above.
 
 ## Release history
+
+### 0.1.m3-f1 — versionCode 5
+
+- Allowed valid mock-provider locations through the normal foreground tracking
+  pipeline; mock origin is not treated as an invalid location.
+- Added location timestamp, accuracy, jump, duplicate, and speed consistency
+  validation, including Android speed-accuracy metadata when available.
+- Reduced stationary GPS drift and prevented one high-speed sample from setting
+  the top speed.
+- Expired current speed when a ride is completed and retained the existing
+  fifteen-second freshness window for live speed display.
+- Formatted total, moving, idle, history, and summary durations as `MM:SS` or
+  `HH:MM:SS` while retaining numeric seconds internally.
+- Source checks: VS Code diagnostics passed for touched Java files. Gradle
+  packaging was attempted but could not run because Java and `JAVA_HOME` are
+  unavailable in this environment.
+- Physical-device checks, external mock-location app checks, background and
+  screen-off checks, and Milestone 1 call-announcement regression checks remain
+  pending until a configured Android build/device environment is available.
+- Known limitation: physical GPS accuracy and external mock-location behavior
+  have not been verified on a device in this fix cycle.
 
 ### 0.1.m3 — versionCode 4
 

@@ -10,8 +10,8 @@ android {
         applicationId = "com.aawararide"
         minSdk = 29
         targetSdk = 35
-        versionCode = 4
-        versionName = "0.1.m3"
+        versionCode = 5
+        versionName = "0.1.m3-f1"
     }
 
     buildTypes {

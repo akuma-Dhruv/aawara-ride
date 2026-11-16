@@ -228,12 +228,21 @@ public final class MainActivity extends Activity {
         return getString(
                 R.string.ride_metrics,
                 ride.totalDistanceMeters / 1000.0,
-                ride.totalDurationSeconds,
-                ride.movingDurationSeconds,
-                ride.idleDurationSeconds,
+                formatDuration(ride.totalDurationSeconds),
+                formatDuration(ride.movingDurationSeconds),
+                formatDuration(ride.idleDurationSeconds),
                 ride.overallAverageSpeedKmh(),
                 movingAverageText,
                 ride.topSpeedKmh,
                 currentSpeedText);
+    }
+
+    private String formatDuration(long totalSeconds) {
+        long hours = totalSeconds / 3600;
+        long minutes = (totalSeconds % 3600) / 60;
+        long seconds = totalSeconds % 60;
+        return hours > 0
+                ? String.format(java.util.Locale.US, "%02d:%02d:%02d", hours, minutes, seconds)
+                : String.format(java.util.Locale.US, "%02d:%02d", minutes, seconds);
     }
 }

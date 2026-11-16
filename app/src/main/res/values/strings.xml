@@ -13,7 +13,7 @@
     <string name="waiting_for_gps">Waiting for a valid GPS fix. Ride timer has not started.</string>
     <string name="no_ride_data">No completed rides yet.</string>
     <string name="unavailable">Unavailable</string>
-    <string name="ride_metrics">Distance %1$.2f km\nDuration %2$d s\nMoving %3$d s\nIdle / traffic %4$d s\nOverall average %5$.1f km/h\nMoving average %6$s\nTop speed %7$.1f km/h\nCurrent speed %8$s</string>
+    <string name="ride_metrics">Distance %1$.2f km\nDuration %2$s\nMoving %3$s\nIdle / traffic %4$s\nOverall average %5$.1f km/h\nMoving average %6$s\nTop speed %7$.1f km/h\nCurrent speed %8$s</string>
     <string name="notification_channel_name">Riding Mode</string>
     <string name="notification_title">AawaraRide is listening</string>
     <string name="notification_text">Incoming callers will be announced</string>

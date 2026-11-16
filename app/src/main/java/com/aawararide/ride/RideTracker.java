@@ -27,7 +27,10 @@ public final class RideTracker implements LocationListener {
     static final double MOVING_ENTER_THRESHOLD_KMH = 7.0;
     static final double MOVING_EXIT_THRESHOLD_KMH = 3.0;
     private static final float MAX_ACCURACY_METERS = 50f;
-    private static final double MAX_SPEED_KMH = 160.0;
+    private static final double MAX_VALID_SPEED_KMH = 160.0;
+    private static final double MAX_REPORTED_SPEED_DIFFERENCE_KMH = 25.0;
+    private static final long MAX_LOCATION_AGE_MS = 120_000L;
+    private static final long MAX_FUTURE_LOCATION_MS = 120_000L;
     private static final long CURRENT_SPEED_STALE_MS = 15_000L;
     private static final String TAG = "AawaraRideTracker";
     private final Context context;
@@ -37,6 +40,7 @@ public final class RideTracker implements LocationListener {
     private RideRecord ride;
     private RidePoint previousPoint;
     private boolean moving;
+    private int consecutiveMovingSamples;
     private State state = State.WAITING_FOR_GPS;
 
     public RideTracker(Context context, Listener listener) {
@@ -90,6 +94,7 @@ public final class RideTracker implements LocationListener {
         ride.totalDurationSeconds = Math.max(0,
                 TimeUnit.MILLISECONDS.toSeconds(ride.endTimestamp - ride.startTimestamp));
         normalizeDurations();
+        ride.currentSpeedTimestamp = 0;
         store.completeRide(ride);
         listener.onRideCompleted(ride);
         ride = null;
@@ -132,19 +137,34 @@ public final class RideTracker implements LocationListener {
             previousPoint = point;
         }
         double deltaMeters = distanceMeters(previousPoint, point);
-        long deltaSeconds = Math.max(1,
-                TimeUnit.MILLISECONDS.toSeconds(point.timestamp - previousPoint.timestamp));
+        long deltaMillis = point.timestamp - previousPoint.timestamp;
+        double deltaSeconds = deltaMillis / 1000.0;
+        if (deltaSeconds <= 0) {
+            return;
+        }
         double observedSpeedKmh = deltaMeters / deltaSeconds * 3.6;
-        if (observedSpeedKmh > MAX_SPEED_KMH) {
+        if (observedSpeedKmh > MAX_VALID_SPEED_KMH) {
             Log.w(TAG, "Ignoring impossible GPS jump: " + observedSpeedKmh + " km/h");
             return;
         }
+        if (hasReliableReportedSpeed(location)
+                && Math.abs(location.getSpeed() * 3.6 - observedSpeedKmh)
+                > MAX_REPORTED_SPEED_DIFFERENCE_KMH) {
+            Log.w(TAG, "Ignoring GPS point with contradictory speed readings");
+            return;
+        }
         addDuration(point.timestamp);
-        if (deltaMeters >= 1.0) {
+        double speedKmh = speedFor(point, observedSpeedKmh);
+        boolean withinAccuracyRadius = deltaMeters <= previousPoint.accuracy + point.accuracy;
+        if (deltaMeters >= 1.0 && !(speedKmh <= IDLE_THRESHOLD_KMH && withinAccuracyRadius)) {
             ride.totalDistanceMeters += deltaMeters;
         }
-        double speedKmh = speedFor(point, observedSpeedKmh);
-        if (speedKmh <= MAX_SPEED_KMH) {
+        if (speedKmh > IDLE_THRESHOLD_KMH) {
+            consecutiveMovingSamples++;
+        } else {
+            consecutiveMovingSamples = 0;
+        }
+        if (speedKmh <= IDLE_THRESHOLD_KMH || consecutiveMovingSamples >= 2) {
             ride.topSpeedKmh = Math.max(ride.topSpeedKmh, speedKmh);
         }
         ride.currentSpeedKmh = speedKmh;
@@ -162,6 +182,11 @@ public final class RideTracker implements LocationListener {
                 || !Double.isFinite(location.getLongitude())) {
             return false;
         }
+        long now = System.currentTimeMillis();
+        if (location.getTime() < now - MAX_LOCATION_AGE_MS
+                || location.getTime() > now + MAX_FUTURE_LOCATION_MS) {
+            return false;
+        }
         if (previousPoint != null && location.getTime() <= previousPoint.timestamp) {
             return false;
         }
@@ -174,17 +199,29 @@ public final class RideTracker implements LocationListener {
                 location.getLatitude(),
                 location.getLongitude(),
                 location.getAccuracy(),
-                location.hasSpeed() ? location.getSpeed() : -1,
+                hasReliableReportedSpeed(location) ? location.getSpeed() : -1,
                 location.hasAltitude() ? location.getAltitude() : 0);
     }
 
+    private boolean hasReliableReportedSpeed(Location location) {
+        if (!location.hasSpeed() || !Float.isFinite(location.getSpeed())
+                || location.getSpeed() < 0) {
+            return false;
+        }
+        return !location.hasSpeedAccuracy()
+                || location.getSpeedAccuracyMetersPerSecond() <= 10.0f;
+    }
+
     private double speedFor(RidePoint point, double observedSpeedKmh) {
-        double reported = point.speedMetersPerSecond >= 0
-                ? point.speedMetersPerSecond * 3.6 : observedSpeedKmh;
-        if (reported > MAX_SPEED_KMH || (reported > 0 && observedSpeedKmh > MAX_SPEED_KMH)) {
+        if (point.speedMetersPerSecond < 0) {
             return observedSpeedKmh;
         }
-        return Math.min(MAX_SPEED_KMH, Math.max(0, (reported + observedSpeedKmh) / 2));
+        double reported = point.speedMetersPerSecond * 3.6;
+        if (!Double.isFinite(reported) || reported > MAX_VALID_SPEED_KMH
+                || Math.abs(reported - observedSpeedKmh) > MAX_REPORTED_SPEED_DIFFERENCE_KMH) {
+            return observedSpeedKmh;
+        }
+        return Math.max(0, (reported + observedSpeedKmh) / 2);
     }
 
     private boolean updateMovementState(double speedKmh) {

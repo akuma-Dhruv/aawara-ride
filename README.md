@@ -1,6 +1,6 @@
 # AawaraRide
 
-Current release: **0.1.m3**.
+Current release: **0.1.m3-f1**.
 
 Milestone-based release policy, Android version codes, APK naming, and release
 history are documented in [VERSIONING.md](VERSIONING.md).
@@ -36,7 +36,12 @@ Then run:
 ```
 
 The versioned debug APK is written under
-`app/build/outputs/apk/debug/` with the `AawaraRide-0.1.m3` archive prefix.
+`app/build/outputs/apk/debug/` with the `AawaraRide-0.1.m3-f1` archive prefix.
+
+The expected fix-build artifact is `AawaraRide-0.1.m3-f1.apk`. This workspace
+does not currently contain a built APK because Java is not configured in the
+build environment. Physical GPS and mock-location testing is still required;
+the release notes distinguish those checks from source validation.
 
 ## Run
 
