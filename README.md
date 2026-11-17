@@ -1,6 +1,6 @@
 # AawaraRide
 
-Current release: **0.1.m3-f1**.
+Current release: **0.1.m3b**.
 
 Milestone-based release policy, Android version codes, APK naming, and release
 history are documented in [VERSIONING.md](VERSIONING.md).
@@ -36,12 +36,11 @@ Then run:
 ```
 
 The versioned debug APK is written under
-`app/build/outputs/apk/debug/` with the `AawaraRide-0.1.m3-f1` archive prefix.
+`app/build/outputs/apk/debug/` with the `AawaraRide-0.1.m3b` archive prefix.
 
-The expected fix-build artifact is `AawaraRide-0.1.m3-f1.apk`. This workspace
-does not currently contain a built APK because Java is not configured in the
-build environment. Physical GPS and mock-location testing is still required;
-the release notes distinguish those checks from source validation.
+The expected build artifact is `AawaraRide-0.1.m3b-debug.apk`. Physical GPS
+and mock-location testing is still required; the release notes distinguish
+those checks from source validation.
 
 ## Run
 
@@ -72,7 +71,9 @@ Android/OEM restrictions may hide the incoming number.
 
 Milestone 3 also records rides after the first valid GPS fix, including distance,
 duration, moving/idle time, and speed metrics. Ride data is stored locally for
-recovery and is shown on the main screen after completion.
+recovery and is shown on the main screen after completion. Ride History provides
+completed ride summaries, route point counts, and detail views with map-ready
+coordinates; no external map SDK is required.
 
 Voice recognition is not continuous: it is created only after an incoming call
 announcement begins and is destroyed when the call ends or a command session
@@ -86,3 +87,6 @@ device policy and cannot be guaranteed for every headset profile.
 
 Call detection and the public API trade-offs are documented in
 [TECHNICAL-FEASIBILITY.md](TECHNICAL-FEASIBILITY.md).
+
+to install in device 
+adb install -r app/build/outputs/apk/debug/AawaraRide-0.1.m3b-debug.apk 

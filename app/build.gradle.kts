@@ -10,8 +10,8 @@ android {
         applicationId = "com.aawararide"
         minSdk = 29
         targetSdk = 35
-        versionCode = 5
-        versionName = "0.1.m3-f1"
+        versionCode = 6
+        versionName = "0.1.m3b"
     }
 
     buildTypes {
@@ -36,4 +36,5 @@ base {
 
 dependencies {
     implementation("androidx.core:core:1.13.1")
+    testImplementation("junit:junit:4.13.2")
 }

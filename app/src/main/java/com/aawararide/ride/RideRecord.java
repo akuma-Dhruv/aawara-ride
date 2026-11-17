@@ -8,9 +8,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import java.util.Comparator;
 
 public final class RideRecord {
+    public enum Status {
+        IN_PROGRESS,
+        COMPLETED
+    }
+
     public final String rideId;
+    public long createdAt;
+    public Status status;
     public long startTimestamp;
     public long endTimestamp;
     public double totalDistanceMeters;
@@ -28,10 +36,14 @@ public final class RideRecord {
 
     public RideRecord() {
         rideId = UUID.randomUUID().toString();
+        createdAt = System.currentTimeMillis();
+        status = Status.IN_PROGRESS;
     }
 
     public RideRecord(String rideId) {
         this.rideId = rideId;
+        createdAt = System.currentTimeMillis();
+        status = Status.IN_PROGRESS;
     }
 
     public double overallAverageSpeedKmh() {
@@ -61,6 +73,8 @@ public final class RideRecord {
         }
         return new JSONObject()
                 .put("rideId", rideId)
+                .put("createdAt", createdAt)
+                .put("status", status.name())
                 .put("startTimestamp", startTimestamp)
                 .put("endTimestamp", endTimestamp)
                 .put("totalDistanceMeters", totalDistanceMeters)
@@ -79,6 +93,12 @@ public final class RideRecord {
 
     static RideRecord fromJson(JSONObject json) {
         RideRecord record = new RideRecord(json.optString("rideId"));
+        record.createdAt = json.optLong("createdAt", record.createdAt);
+        try {
+            record.status = Status.valueOf(json.optString("status"));
+        } catch (IllegalArgumentException exception) {
+            record.status = RideRecord.Status.COMPLETED;
+        }
         record.startTimestamp = json.optLong("startTimestamp");
         record.endTimestamp = json.optLong("endTimestamp");
         record.totalDistanceMeters = json.optDouble("totalDistanceMeters");
@@ -101,6 +121,7 @@ public final class RideRecord {
                 }
             }
         }
+        record.points.sort(Comparator.comparingLong(point -> point.timestamp));
         return record;
     }
 }

@@ -20,6 +20,12 @@
             android:name=".ui.SettingsActivity"
             android:exported="false" />
         <activity
+            android:name=".ui.RideHistoryActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ui.RideDetailsActivity"
+            android:exported="false" />
+        <activity
             android:name=".ui.MainActivity"
             android:exported="true">
             <intent-filter>

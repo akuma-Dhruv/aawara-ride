@@ -29,7 +29,7 @@ building, inspect this file and continue from the latest release-history entry.
 ## Android versionCode
 
 `versionCode` is an integer and must increase monotonically for every
-distributed build, including fix builds. The current `0.1.m3-f1` build uses `versionCode 5`; future distributed builds must
+distributed build, including fix builds. The current `0.1.m3b` build uses `versionCode 6`; future distributed builds must
 continue increasing this value.
 
 ## APK naming
@@ -45,6 +45,22 @@ build-type suffix in Gradle's intermediate output, but the release artifact
 must use the versioned name above.
 
 ## Release history
+
+### 0.1.m3b — versionCode 6
+
+- Added persistent completed ride history and idempotent finalisation.
+- Added incremental route-point retention through the existing local
+  SharedPreferences JSON store; no second persistence framework was introduced.
+- Added Ride History and Ride Details screens with duration formatting,
+  coordinates, speed metrics, and route-point availability.
+- Added DAO-style accessors for completed rides and ordered route points.
+- Build and lint status: `./gradlew clean lintDebug assembleDebug` passed.
+- Automated test status: duration-formatting unit tests are included; no physical
+  device tests were executed in this environment.
+- Physical-device GPS, background, screen-off, and mock-location checks remain
+  pending in this environment.
+- Known limitation: the project does not currently use Room, so these records
+  remain in the existing JSON-backed local store rather than a SQL database.
 
 ### 0.1.m3-f1 — versionCode 5
 

@@ -74,6 +74,9 @@ public final class MainActivity extends Activity {
         Button settingsButton = findViewById(R.id.settings_button);
         settingsButton.setOnClickListener(
                 view -> startActivity(new Intent(this, SettingsActivity.class)));
+        Button historyButton = findViewById(R.id.history_button);
+        historyButton.setOnClickListener(
+                view -> startActivity(new Intent(this, RideHistoryActivity.class)));
         updatePermissionStatus();
         updateRideStatus();
         androidx.core.content.ContextCompat.registerReceiver(
