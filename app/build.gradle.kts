@@ -1,5 +1,6 @@
 plugins {
     id("com.android.application")
+    id("org.jetbrains.kotlin.android")
 }
 
 android {
@@ -10,8 +11,8 @@ android {
         applicationId = "com.aawararide"
         minSdk = 29
         targetSdk = 35
-        versionCode = 6
-        versionName = "0.1.m3b"
+        versionCode = 7
+        versionName = "0.1.m3b-f1"
     }
 
     buildTypes {
@@ -27,6 +28,10 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+
+    kotlinOptions {
+        jvmTarget = "11"
     }
 }
 

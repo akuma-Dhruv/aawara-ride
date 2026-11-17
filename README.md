@@ -1,11 +1,11 @@
 # AawaraRide
 
-Current release: **0.1.m3b**.
+Current release: **0.1.m3b-f1**.
 
 Milestone-based release policy, Android version codes, APK naming, and release
 history are documented in [VERSIONING.md](VERSIONING.md).
 
-Android Java application for announcing incoming cellular callers through the
+Android Kotlin application for announcing incoming cellular callers through the
 phone's available audio route while preserving native call handling.
 
 ## Build
@@ -20,8 +20,8 @@ The local development setup uses:
 - VS Code extensions `vscjava.vscode-java-pack`,
   `vscjava.vscode-gradle`, and `adelphes.android-dev-ext`
 
-The project uses Gradle Kotlin DSL, Java 11 source compatibility, minimum API
-29, and no runtime network dependency. In a new terminal, set the SDK path:
+The project uses Gradle Kotlin DSL, Kotlin/JVM 11, minimum API 29, and no
+runtime network dependency. In a new terminal, set the SDK path:
 
 ```bash
 export ANDROID_HOME="$HOME/Android/Sdk"
@@ -36,9 +36,9 @@ Then run:
 ```
 
 The versioned debug APK is written under
-`app/build/outputs/apk/debug/` with the `AawaraRide-0.1.m3b` archive prefix.
+`app/build/outputs/apk/debug/` with the `AawaraRide-0.1.m3b-f1` archive prefix.
 
-The expected build artifact is `AawaraRide-0.1.m3b-debug.apk`. Physical GPS
+The expected build artifact is `AawaraRide-0.1.m3b-f1-debug.apk`. Physical GPS
 and mock-location testing is still required; the release notes distinguish
 those checks from source validation.
 

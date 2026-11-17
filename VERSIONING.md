@@ -46,6 +46,14 @@ must use the versioned name above.
 
 ## Release history
 
+### 0.1.m3b-f1 — versionCode 7
+
+- Migrated all application-owned Java source and the unit test to Kotlin.
+- Preserved the existing JSON-backed ride store, manifest, permissions,
+  calculations, call handling, announcements, and XML UI.
+- Build and device validation are pending in the current environment because
+  Java/JAVA_HOME is unavailable.
+
 ### 0.1.m3b — versionCode 6
 
 - Added persistent completed ride history and idempotent finalisation.
